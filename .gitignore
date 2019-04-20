@@ -1,0 +1,6 @@
+*.idea
+*.bin
+*.lock
+.gradle/4.10.1/gc.properties
+.gradle/buildOutputCleanup/cache.properties
+.gradle/vcs-1/gc.properties
