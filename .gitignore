@@ -4,3 +4,6 @@
 .gradle/4.10.1/gc.properties
 .gradle/buildOutputCleanup/cache.properties
 .gradle/vcs-1/gc.properties
+.gradle/5.1.1/gc.properties
+app/app.iml
+*.iml
