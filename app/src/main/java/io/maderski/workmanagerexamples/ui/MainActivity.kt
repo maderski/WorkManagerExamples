@@ -26,24 +26,24 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun onSlackWorkClicked(view: View) {
-        viewModel.performSlackWork()
         viewModel.observeWorkFor(SLACK_WORK_TAG) {
             showToast("Slack work: $it")
         }
+        viewModel.performSlackWork()
     }
 
     fun onDemoCancelWorkClicked(view: View) {
-        viewModel.cancelRunningWork()
         viewModel.observeWorkFor(NOTIFICATION_WORK_TAG) {
             showToast("Notification work: $it")
         }
+        viewModel.cancelRunningWork()
     }
 
     fun onDemoChainsClicked(view: View) {
-        viewModel.performDemoChainsWork()
         viewModel.observeWorkFor(NOTIFICATION_WORK_TAG) {
             showToast("Notification work: $it")
         }
+        viewModel.performDemoChainsWork()
     }
 
     private fun showToast(message: String) {

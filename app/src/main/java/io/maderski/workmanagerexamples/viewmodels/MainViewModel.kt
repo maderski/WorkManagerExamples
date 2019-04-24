@@ -62,9 +62,15 @@ class MainViewModel(val lifecycleOwner: LifecycleOwner) : ViewModel() {
 
     // observe work state of a Worker
     inline fun observeWorkFor(tag: String, crossinline task: (WorkInfo.State) -> Unit) {
-        WorkManager.getInstance().getWorkInfosByTagLiveData(tag).observe(lifecycleOwner, Observer { workInfo ->
-            workInfo?.let {
-                task(it.first().state)
+        val workInfos = WorkManager.getInstance().getWorkInfosByTag(tag)
+        if (workInfos.get().isNotEmpty()) {
+            WorkManager.getInstance().pruneWork()
+        }
+        WorkManager.getInstance().getWorkInfosByTagLiveData(tag).observe(lifecycleOwner, Observer { workInfos ->
+            workInfos?.let {
+                if (workInfos.isNotEmpty()) {
+                    task(it.first().state)
+                }
             }
         })
     }
