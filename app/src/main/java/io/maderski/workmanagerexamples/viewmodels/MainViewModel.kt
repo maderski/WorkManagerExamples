@@ -12,7 +12,7 @@ class MainViewModel(val lifecycleOwner: LifecycleOwner) : ViewModel() {
     fun performSlackWork(): Operation {
         // create data that contains the first message
         val dataBuilder = Data.Builder()
-        val inputData = dataBuilder.putString(SLACK_MESSAGE_ARG, "First slack message").build()
+        val inputData = dataBuilder.putString(SLACK_MESSAGE_ARG, "I did some work!").build()
         // set Constraints
         val constraints = Constraints.Builder()
             .setRequiredNetworkType(NetworkType.CONNECTED)
@@ -27,7 +27,11 @@ class MainViewModel(val lifecycleOwner: LifecycleOwner) : ViewModel() {
         return WorkManager.getInstance().enqueue(slackWorkRequest)
     }
 
-    fun performCompressWork() {
+    fun performCompressionWork() {
+
+    }
+
+    fun performDemoChainDelaysWork() {
 
     }
 
@@ -48,5 +52,7 @@ class MainViewModel(val lifecycleOwner: LifecycleOwner) : ViewModel() {
 
     companion object {
         const val SLACK_WORK_TAG = "SlackWorker"
+        const val COMPRESSION_WORK_TAG = "CompressionWorker"
+        const val DEMO_CHAINS = "Demo Chains"
     }
 }

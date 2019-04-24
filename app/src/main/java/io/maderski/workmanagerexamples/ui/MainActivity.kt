@@ -31,4 +31,18 @@ class MainActivity : AppCompatActivity() {
             Toast.makeText(this, "Slack work: $it", Toast.LENGTH_LONG).show()
         }
     }
+
+    fun onCompressionWorkClicked(view: View) {
+        viewModel.performCompressionWork()
+        viewModel.observeWorkFor(MainViewModel.COMPRESSION_WORK_TAG) {
+            Toast.makeText(this, "Compression work: $it", Toast.LENGTH_LONG).show()
+        }
+    }
+
+    fun onDemoChainsClicked(view: View) {
+        viewModel.performDemoChainDelaysWork()
+        viewModel.observeWorkFor(MainViewModel.COMPRESSION_WORK_TAG) {
+            Toast.makeText(this, "Demo Chains work: $it", Toast.LENGTH_LONG).show()
+        }
+    }
 }

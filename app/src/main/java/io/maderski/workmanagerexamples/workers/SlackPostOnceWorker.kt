@@ -5,6 +5,7 @@ import androidx.work.Worker
 import androidx.work.WorkerParameters
 import io.maderski.workmanagerexamples.clients.SlackClient
 import io.maderski.workmanagerexamples.utils.ConfigUtils
+import java.lang.Exception
 
 const val SLACK_MESSAGE_ARG = "SLACK_MESSAGE"
 
