@@ -1,5 +1,6 @@
 package io.maderski.workmanagerexamples.viewmodels
 
+import android.os.Handler
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
@@ -29,8 +30,12 @@ class MainViewModel(val lifecycleOwner: LifecycleOwner) : ViewModel() {
         WorkManager.getInstance().enqueue(slackWorkRequest)
     }
 
-    fun performCompressionWork() {
-
+    fun cancelRunningWork() {
+        val delayedWorkRequest = getOneTimeNotificationWorkRequest("I should of been cancelled", 30000L)
+        WorkManager.getInstance().enqueue(delayedWorkRequest)
+        Handler().postDelayed({
+            WorkManager.getInstance().cancelAllWorkByTag(NOTIFICATION_WORK_TAG)
+        }, 5000)
     }
 
     fun performDemoChainsWork() {
@@ -42,7 +47,6 @@ class MainViewModel(val lifecycleOwner: LifecycleOwner) : ViewModel() {
             .then(workB)
             .then(workC)
             .enqueue()
-
     }
 
     private fun getOneTimeNotificationWorkRequest(message: String, delayInMillis: Long = 0L): OneTimeWorkRequest {
@@ -71,7 +75,6 @@ class MainViewModel(val lifecycleOwner: LifecycleOwner) : ViewModel() {
 
     companion object {
         const val SLACK_WORK_TAG = "SlackWorker"
-        const val COMPRESSION_WORK_TAG = "CompressionWorker"
         const val NOTIFICATION_WORK_TAG = "NotificationWorker"
     }
 }

@@ -30,9 +30,9 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun onCompressionWorkClicked(view: View) {
-        viewModel.performCompressionWork()
-        viewModel.observeWorkFor(MainViewModel.COMPRESSION_WORK_TAG) {
+    fun onDemoCancelWorkClicked(view: View) {
+        viewModel.cancelRunningWork()
+        viewModel.observeWorkFor(MainViewModel.NOTIFICATION_WORK_TAG) {
             showToast("Compression work: $it")
         }
     }
