@@ -5,7 +5,6 @@ import androidx.work.Worker
 import androidx.work.WorkerParameters
 import io.maderski.workmanagerexamples.helpers.NotificationHelper
 
-const val NOTIFICATION_MESSAGE_ARG = "NOTIFICATION_MESSAGE"
 
 class NotificationWorker(context: Context, workerParams: WorkerParameters) : Worker(context, workerParams) {
     private val notificationHelper = NotificationHelper(context)
@@ -18,5 +17,10 @@ class NotificationWorker(context: Context, workerParams: WorkerParameters) : Wor
         } else {
             Result.failure()
         }
+    }
+
+    companion object {
+        const val NOTIFICATION_MESSAGE_ARG = "arg_notification_message"
+        const val NOTIFICATION_WORK_TAG = "NotificationWorker"
     }
 }

@@ -47,7 +47,8 @@ class NotificationHelper(private val context: Context) {
             .setSmallIcon(icon)
             .setContentTitle(title)
             .setContentText(message)
-            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            .setDefaults(NotificationCompat.DEFAULT_ALL)
+            .setPriority(NotificationManager.IMPORTANCE_HIGH)
             .build()
 
         if (isOngoing) {
@@ -61,7 +62,7 @@ class NotificationHelper(private val context: Context) {
     private fun getNotificationChannel(channelId: String, channelName: String): NotificationChannel {
         val notificationChannel = NotificationChannel(channelId,
             channelName,
-            NotificationManager.IMPORTANCE_DEFAULT)
+            NotificationManager.IMPORTANCE_HIGH)
         notificationChannel.enableVibration(false)
         notificationChannel.setShowBadge(false)
         return notificationChannel

@@ -6,10 +6,12 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.work.*
-import io.maderski.workmanagerexamples.workers.NOTIFICATION_MESSAGE_ARG
 import io.maderski.workmanagerexamples.workers.NotificationWorker
-import io.maderski.workmanagerexamples.workers.SLACK_MESSAGE_ARG
+import io.maderski.workmanagerexamples.workers.NotificationWorker.Companion.NOTIFICATION_MESSAGE_ARG
+import io.maderski.workmanagerexamples.workers.NotificationWorker.Companion.NOTIFICATION_WORK_TAG
 import io.maderski.workmanagerexamples.workers.SlackPostOnceWorker
+import io.maderski.workmanagerexamples.workers.SlackPostOnceWorker.Companion.SLACK_MESSAGE_ARG
+import io.maderski.workmanagerexamples.workers.SlackPostOnceWorker.Companion.SLACK_WORK_TAG
 import java.util.concurrent.TimeUnit
 
 class MainViewModel(val lifecycleOwner: LifecycleOwner) : ViewModel() {
@@ -71,10 +73,5 @@ class MainViewModel(val lifecycleOwner: LifecycleOwner) : ViewModel() {
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
             return MainViewModel(lifecycleOwner) as T
         }
-    }
-
-    companion object {
-        const val SLACK_WORK_TAG = "SlackWorker"
-        const val NOTIFICATION_WORK_TAG = "NotificationWorker"
     }
 }

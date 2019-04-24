@@ -8,6 +8,8 @@ import androidx.lifecycle.ViewModelProviders
 import io.maderski.workmanagerexamples.R
 import io.maderski.workmanagerexamples.utils.PermissionUtils
 import io.maderski.workmanagerexamples.viewmodels.MainViewModel
+import io.maderski.workmanagerexamples.workers.NotificationWorker.Companion.NOTIFICATION_WORK_TAG
+import io.maderski.workmanagerexamples.workers.SlackPostOnceWorker.Companion.SLACK_WORK_TAG
 
 class MainActivity : AppCompatActivity() {
 
@@ -25,22 +27,22 @@ class MainActivity : AppCompatActivity() {
 
     fun onSlackWorkClicked(view: View) {
         viewModel.performSlackWork()
-        viewModel.observeWorkFor(MainViewModel.SLACK_WORK_TAG) {
+        viewModel.observeWorkFor(SLACK_WORK_TAG) {
             showToast("Slack work: $it")
         }
     }
 
     fun onDemoCancelWorkClicked(view: View) {
         viewModel.cancelRunningWork()
-        viewModel.observeWorkFor(MainViewModel.NOTIFICATION_WORK_TAG) {
-            showToast("Compression work: $it")
+        viewModel.observeWorkFor(NOTIFICATION_WORK_TAG) {
+            showToast("Notification work: $it")
         }
     }
 
     fun onDemoChainsClicked(view: View) {
         viewModel.performDemoChainsWork()
-        viewModel.observeWorkFor(MainViewModel.NOTIFICATION_WORK_TAG) {
-            showToast("Compression work: $it")
+        viewModel.observeWorkFor(NOTIFICATION_WORK_TAG) {
+            showToast("Notification work: $it")
         }
     }
 
