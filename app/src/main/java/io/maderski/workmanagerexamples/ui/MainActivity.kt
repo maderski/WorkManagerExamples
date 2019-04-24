@@ -4,11 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProviders
-import androidx.work.OneTimeWorkRequestBuilder
-import androidx.work.WorkInfo
 import io.maderski.workmanagerexamples.R
 import io.maderski.workmanagerexamples.utils.PermissionUtils
 import io.maderski.workmanagerexamples.viewmodels.MainViewModel
@@ -16,6 +12,8 @@ import io.maderski.workmanagerexamples.viewmodels.MainViewModel
 class MainActivity : AppCompatActivity() {
 
     private lateinit var viewModel: MainViewModel
+
+    private var toast: Toast? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,21 +26,31 @@ class MainActivity : AppCompatActivity() {
     fun onSlackWorkClicked(view: View) {
         viewModel.performSlackWork()
         viewModel.observeWorkFor(MainViewModel.SLACK_WORK_TAG) {
-            Toast.makeText(this, "Slack work: $it", Toast.LENGTH_LONG).show()
+            showToast("Slack work: $it")
         }
     }
 
     fun onCompressionWorkClicked(view: View) {
         viewModel.performCompressionWork()
         viewModel.observeWorkFor(MainViewModel.COMPRESSION_WORK_TAG) {
-            Toast.makeText(this, "Compression work: $it", Toast.LENGTH_LONG).show()
+            showToast("Compression work: $it")
         }
     }
 
     fun onDemoChainsClicked(view: View) {
-        viewModel.performDemoChainDelaysWork()
-        viewModel.observeWorkFor(MainViewModel.COMPRESSION_WORK_TAG) {
-            Toast.makeText(this, "Demo Chains work: $it", Toast.LENGTH_LONG).show()
+        viewModel.performDemoChainsWork()
+        viewModel.observeWorkFor(MainViewModel.NOTIFICATION_WORK_TAG) {
+            showToast("Compression work: $it")
         }
+    }
+
+    private fun showToast(message: String) {
+        toast?.let {
+            if (it.view.isShown) {
+                it.cancel()
+            }
+        }
+        toast = Toast.makeText(this, message, Toast.LENGTH_SHORT)
+        toast?.show()
     }
 }

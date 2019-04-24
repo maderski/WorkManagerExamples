@@ -5,13 +5,15 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.work.*
+import io.maderski.workmanagerexamples.workers.NOTIFICATION_MESSAGE_ARG
+import io.maderski.workmanagerexamples.workers.NotificationWorker
 import io.maderski.workmanagerexamples.workers.SLACK_MESSAGE_ARG
 import io.maderski.workmanagerexamples.workers.SlackPostOnceWorker
+import java.util.concurrent.TimeUnit
 
 class MainViewModel(val lifecycleOwner: LifecycleOwner) : ViewModel() {
-    fun performSlackWork(): Operation {
-        // create data that contains the first message
-        val dataBuilder = Data.Builder()
+    private val dataBuilder = Data.Builder()
+    fun performSlackWork() {
         val inputData = dataBuilder.putString(SLACK_MESSAGE_ARG, "I did some work!").build()
         // set Constraints
         val constraints = Constraints.Builder()
@@ -24,15 +26,32 @@ class MainViewModel(val lifecycleOwner: LifecycleOwner) : ViewModel() {
             .setInputData(inputData)
             .build()
         // enquene work request
-        return WorkManager.getInstance().enqueue(slackWorkRequest)
+        WorkManager.getInstance().enqueue(slackWorkRequest)
     }
 
     fun performCompressionWork() {
 
     }
 
-    fun performDemoChainDelaysWork() {
+    fun performDemoChainsWork() {
+        val workA = getOneTimeNotificationWorkRequest("Kotlin rocks!")
+        val workB = getOneTimeNotificationWorkRequest("WorkManger is awesome!", 5000L)
+        val workC = getOneTimeNotificationWorkRequest("Chaining is easy!", 5000L)
+        WorkManager.getInstance()
+            .beginWith(workA)
+            .then(workB)
+            .then(workC)
+            .enqueue()
 
+    }
+
+    private fun getOneTimeNotificationWorkRequest(message: String, delayInMillis: Long = 0L): OneTimeWorkRequest {
+        val inputData = dataBuilder.putString(NOTIFICATION_MESSAGE_ARG, message).build()
+        return OneTimeWorkRequestBuilder<NotificationWorker>()
+            .addTag(NOTIFICATION_WORK_TAG)
+            .setInitialDelay(delayInMillis, TimeUnit.MILLISECONDS)
+            .setInputData(inputData)
+            .build()
     }
 
     // observe work state of a Worker
@@ -53,6 +72,6 @@ class MainViewModel(val lifecycleOwner: LifecycleOwner) : ViewModel() {
     companion object {
         const val SLACK_WORK_TAG = "SlackWorker"
         const val COMPRESSION_WORK_TAG = "CompressionWorker"
-        const val DEMO_CHAINS = "Demo Chains"
+        const val NOTIFICATION_WORK_TAG = "NotificationWorker"
     }
 }
