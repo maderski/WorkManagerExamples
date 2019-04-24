@@ -7,3 +7,4 @@
 .gradle/5.1.1/gc.properties
 app/app.iml
 *.iml
+app/src/main/res/raw/config.properties
